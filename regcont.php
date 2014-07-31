@@ -5,11 +5,14 @@
 	if(isset($_POST['submit']))
 	{
 		$name = $_POST['name'];
-		$rollno = $_POST['rollno'];
-		$dept = $_POST['dept'];
-		$sex = $_POST['sex'];
+		$username = $_POST['username'];
 		$pass = $_POST['pass'];
 		$repass = $_POST['repass'];
+		$sex = $_POST['sex'];
+		$degree = $_POST['degree'];
+		$dept = $_POST['dept'];
+		$year = $_POST['year'];
+		$place = $_POST['place'];
 		$contact = $_POST['contact'];
 		$email = $_POST['email'];
 		$outputform = true;
@@ -26,9 +29,9 @@
 			return $flag;
 			
 		}
-		function filled($name, $rollno, $dept, $sex, $pass, $repass, $contact)
+		function filled($name, $username, $degree, $dept, $year, $sex, $pass, $repass, $email, $place)
 		{
-			if(!($name!=""&&$rollno!=""&&$dept!=""&&$sex!=""&&$pass!=""&&$repass!=""&&$contact!=""))
+			if(!($name!=""&&$username!=""&&$degree!=""&&$dept!=""&&$year!=""&&$sex!=""&&$pass!=""&&$repass!=""&&$email!=""&&$place!=""))
 			{
 				echo '<br>All required fields not filled!!!';
 				$flag = false;
@@ -38,11 +41,11 @@
 			return $flag;
 		}
 		
-		function precedence_username($rollno,$db_host,$db_user,$db_pw)
+		function precedence_username($username,$db_host,$db_user,$db_pw)
 		{
-			$dbc = mysqli_connect($db_host, $db_user, $db_pw, 'project')
+			$dbc = mysqli_connect($db_host, $db_user, $db_pw, 'oar')
 					or die ('Error connecting to the database server');
-			$query="SELECT rollno FROM register;";
+			$query="SELECT username FROM register;";
 			$result=mysqli_query($dbc,$query);
 			$flag=true;
 			while($row=mysqli_fetch_array($result))
@@ -50,7 +53,7 @@
 				
 				 if($row['rollno']==$rollno)
 				 {
-					echo "</br>".'Rollno already registered!!!';
+					echo "</br>".'Username already registered!!!';
 					$flag=false;
 					break;
 				 }
@@ -76,28 +79,22 @@
 		}
 		
 		$p = passwd($pass, $repass);
-		$f = filled($name, $rollno, $dept, $sex, $pass, $repass, $contact);
-		$pre = precedence_username($rollno,$db_host,$db_user,$db_pw);
+		$f = filled($name, $username, $degree, $dept, $year, $sex, $pass, $repass, $email, $place);
+		$pre = precedence_username($username,$db_host,$db_user,$db_pw);
 		$e = checkemail($email);
-		$corr = $p && $f && $pre && $e;
+		$corr = $p && $pre && $f && $e;
 		
 		if($corr)
 		{
-			$dbc = mysqli_connect($db_host, $db_user, $db_pw, 'project')
+			$dbc = mysqli_connect($db_host, $db_user, $db_pw, 'oar')
 					or die ('Error connecting to the database server');
-			$query = "INSERT INTO register (name, rollno, dept, sex, password, contact, email, admin, approved) 
-					VALUES ('$name', '$rollno', '$dept', '$sex','$pass',  '$contact', '$email', '$admin', '$approved');";
-			if($flag1)
-			{
-				move_uploaded_file($_FILES["file"]["tmp_name"],
-				   $target_path . $rollno . '.png')
-				  or die('Error');
-
-			}
+			
+			$query = "INSERT INTO register (name, username, password, sex, degree, dept, year, place, contact, email) 
+					VALUES ('$name', '$username', '$pass','$sex','$degree', '$dept','$year', '$place', '$contact', '$email');";
 			$result = mysqli_query($dbc, $query)
 				or die ('Error querying database');
 			echo 'Successfully registered!!';
-			echo ' <br><a href="index.php">Click here</a> to go to login page';
+			echo ' <br><a href="index1.php">Click here</a> to go to home page';
 			mysqli_close($dbc);
 			$outputform = false;
 		}
@@ -123,7 +120,7 @@
 	{
 ?>
 
-		 <form class="uk-form uk-form-horizontal" method = "post" action="<?php echo $_SERVER['PHP_SELF'];?>" enctype="multipart/form-data">
+		 <form class="uk-form uk-form-horizontal" method = "post" action="<?php echo $_SERVER['PHP_SELF'];?>">
 			
 			<div class="uk-form-row">
 				<label class="uk-form-label" for="form-h-it">Name *</label>
