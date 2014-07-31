@@ -4,7 +4,6 @@
 	<title>Office of Alumni Relations</title>
 	<meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <title>Frontpage layout example - UIkit documentation</title>
     <!--<link rel="shortcut icon" href="images/favicon.ico" type="image/x-icon">
     <link rel="apple-touch-icon-precomposed" href="images/apple-touch-icon.png">-->
     <link id="data-uikit-theme" rel="stylesheet" href="css/uikit.docs.min.css">
@@ -15,7 +14,7 @@
 </head>
 
 <body class="tm-background">
-	<nav class="tm-navbar uk-navbar uk-navbar-attached">
+	<nav class="tm-navbar uk-navbar uk-navbar-attached">	
             <div class="uk-container uk-container-center">
             	<div class="uk-grid">
             		<div class="uk-width-3-5">
